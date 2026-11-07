@@ -271,6 +271,7 @@
           <a href="#rewards">Rewards</a>
           <a href="#faq">FAQ</a>
           <a class="btn btn-yellow btn-small" href="#join">Join SmazhPerkPoint</a>
+          <a class="btn btn-black btn-small" href="#staff-login">Staff Login</a>
         </nav>
       </div>
     </div>
@@ -608,5 +609,19 @@
         update();
       })();
     </script>
-  </body>
+  
+    <section class="section" id="staff-login">
+      <div class="wrap">
+        <h2>Staff Login</h2>
+        <p>Staff only. Sign in here in Muse to open Cashier Desk, Member Portal, Rewards and Insights with your real customers and points.</p>
+        <form onsubmit="event.preventDefault(); document.getElementById('staff-login-msg').textContent='Staff sign-in lives in Muse, not on this public page. Open SmazhPerkPoint in Muse, tap Staff Login top-right, and sign in as Smazh or Brian.';">
+          <label>Username<br><input type="text" placeholder="Username" required></label><br><br>
+          <label>Password<br><input type="password" placeholder="Password" required></label><br><br>
+          <button class="btn btn-black" type="submit">Sign in</button>
+        </form>
+        <p id="staff-login-msg"></p>
+      </div>
+    </section>
+
+</body>
 </html>
