@@ -198,6 +198,57 @@
       .calc-progress i { display: block; height: 100%; background: var(--yellow); border-radius: 99px; transition: width .3s ease; }
       .calc-note { font-size: 13px; color: #a9a99d; margin-top: 12px; }
 
+      /* tier ladder */
+      .climb {
+        list-style: none; margin: 0 0 26px; padding: 26px 24px 20px;
+        background: var(--black-panel); border-radius: var(--radius);
+        display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+      }
+      .climb li { position: relative; padding-top: 24px; text-align: center; }
+      .climb li::before { content: ""; position: absolute; top: 7px; left: 0; right: 0; height: 3px; background: #3a3a3a; }
+      .climb li:first-child::before { left: 50%; }
+      .climb li:last-child::before { right: 50%; }
+      .climb .cd {
+        position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 17px; height: 17px; border-radius: 50%; border: 3px solid var(--black-panel);
+      }
+      .climb b { display: block; color: #fff; font-size: 15px; font-weight: 900; }
+      .climb small { display: block; color: #b3b3a8; font-size: 12px; font-weight: 600; margin-top: 2px; }
+      .climb .cm { display: block; color: var(--yellow); font-weight: 900; font-size: 17px; margin-top: 6px; }
+      .climb li:last-child b { color: var(--yellow); }
+      @media (max-width: 640px) {
+        .climb { grid-template-columns: 1fr; gap: 16px; padding: 20px; }
+        .climb li { text-align: left; padding: 0 0 0 30px; }
+        .climb li::before { display: none; }
+        .climb .cd { top: 3px; left: 0; transform: none; }
+      }
+
+      /* tier comparison table */
+      .tier-table-wrap { margin-top: 26px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+      table.tier-table { width: 100%; border-collapse: collapse; min-width: 580px; }
+      .tier-table caption { text-align: left; padding: 18px 20px 6px; font-weight: 900; font-size: 17px; }
+      .tier-table th, .tier-table td { padding: 12px 20px; font-size: 14.5px; text-align: right; border-bottom: 1px solid var(--line); }
+      .tier-table th:first-child, .tier-table td:first-child { text-align: left; }
+      .tier-table thead th {
+        font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+        color: var(--muted); font-weight: 800; background: var(--yellow-pale);
+      }
+      .tier-table tbody tr:last-child td { border-bottom: none; }
+      .tier-table td.n { font-weight: 800; }
+      .tier-table td.m { font-weight: 900; color: var(--amber-text); }
+      .tier-table .tname { display: flex; align-items: center; gap: 9px; font-weight: 800; }
+
+      /* calculator: tier comparison */
+      .calc-compare { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #3a3a3a; }
+      .calc-compare h4 { margin: 0 0 10px; font-size: 11.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #ffd94d; }
+      .cc-row { display: grid; grid-template-columns: 74px 1fr 64px; gap: 10px; align-items: center; padding: 4px 0; font-size: 13.5px; }
+      .cc-row .cc-name { color: #c9c9bd; font-weight: 700; }
+      .cc-row .cc-bar { height: 8px; background: #2c2c2c; border-radius: 99px; overflow: hidden; }
+      .cc-row .cc-bar i { display: block; height: 100%; border-radius: 99px; }
+      .cc-row b { text-align: right; font-weight: 800; color: #e6e6db; }
+      .cc-row.on .cc-name, .cc-row.on b { color: var(--yellow); }
+      .cc-row.on .cc-bar { background: #3d3d3d; }
+
       /* rewards */
       .reward-rows { border-top: 1px solid var(--line); }
       .reward-row { display: grid; grid-template-columns: 64px 1fr auto; gap: 20px; align-items: center; padding: 24px 6px; border-bottom: 1px solid var(--line); }
@@ -357,6 +408,13 @@
           <h2>Five tiers. The more you shop, the faster you earn.</h2>
           <p>Your tier is set by your <strong>lifetime points</strong> — the total you've ever earned. Lifetime points never go down, even when you spend points on rewards, so once you reach a tier, it's yours to keep.</p>
         </div>
+        <ol class="climb" aria-label="The five SmazhPerkPoint tiers in order">
+          <li><span class="cd" style="background:#cd7f32"></span><b>Bronze</b><small>0 lifetime pts</small><span class="cm">1×</span></li>
+          <li><span class="cd" style="background:#94a3b8"></span><b>Silver</b><small>500 lifetime pts</small><span class="cm">1.25×</span></li>
+          <li><span class="cd" style="background:#eab308"></span><b>Gold</b><small>1,500 lifetime pts</small><span class="cm">1.5×</span></li>
+          <li><span class="cd" style="background:#38bdf8"></span><b>Platinum</b><small>3,500 lifetime pts</small><span class="cm">1.75×</span></li>
+          <li><span class="cd" style="background:#c084fc"></span><b>Diamond</b><small>7,000 lifetime pts</small><span class="cm">2×</span></li>
+        </ol>
         <div class="tier-list">
           <div class="tier-row">
             <div class="tier-name"><span class="tier-dot" style="background:#cd7f32"></span>Bronze</div>
@@ -388,6 +446,57 @@
             <div class="t-mult">2×<small>Multiplier</small></div>
             <p class="t-perk">The top tier — double points on every dollar, forever. Diamond members earn a reward twice as fast as Bronze.</p>
           </div>
+        </div>
+        <div class="tier-table-wrap">
+          <table class="tier-table">
+            <caption>Tier comparison at a glance</caption>
+            <thead>
+              <tr>
+                <th scope="col">Tier</th>
+                <th scope="col">Lifetime pts</th>
+                <th scope="col">Multiplier</th>
+                <th scope="col">Earns per $100</th>
+                <th scope="col">Pts from previous tier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tname"><span class="tier-dot" style="background:#cd7f32"></span>Bronze</span></td>
+                <td class="n">0</td>
+                <td class="m">1×</td>
+                <td class="n">100 pts</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><span class="tname"><span class="tier-dot" style="background:#94a3b8"></span>Silver</span></td>
+                <td class="n">500</td>
+                <td class="m">1.25×</td>
+                <td class="n">125 pts</td>
+                <td>500</td>
+              </tr>
+              <tr>
+                <td><span class="tname"><span class="tier-dot" style="background:#eab308"></span>Gold</span></td>
+                <td class="n">1,500</td>
+                <td class="m">1.5×</td>
+                <td class="n">150 pts</td>
+                <td>1,000</td>
+              </tr>
+              <tr>
+                <td><span class="tname"><span class="tier-dot" style="background:#38bdf8"></span>Platinum</span></td>
+                <td class="n">3,500</td>
+                <td class="m">1.75×</td>
+                <td class="n">175 pts</td>
+                <td>2,000</td>
+              </tr>
+              <tr>
+                <td><span class="tname"><span class="tier-dot" style="background:#c084fc"></span>Diamond</span></td>
+                <td class="n">7,000</td>
+                <td class="m">2×</td>
+                <td class="n">200 pts</td>
+                <td>3,500</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="core-perks">
           <h3>Every member gets, from day one:</h3>
@@ -428,8 +537,13 @@
             <div class="row"><span>Points from this trip</span><b class="y" id="outTrip">+300 pts</b></div>
             <div class="row"><span>New lifetime total</span><b id="outLife">1,800 pts</b></div>
             <div class="row"><span>Next tier</span><b id="outNext">Platinum — 1,700 pts to go</b></div>
+            <div class="row"><span>To reach next tier</span><b id="outTrips">About 6 more trips this size</b></div>
             <div class="calc-progress"><i id="outBar" style="width:26%"></i></div>
             <p class="calc-note" id="outNote">Keep going — at Platinum every $1 earns 1.75 points.</p>
+            <div class="calc-compare">
+              <h4>What this same trip earns at each tier</h4>
+              <ul id="outCompare" style="list-style:none;margin:0;padding:0"></ul>
+            </div>
           </div>
         </div>
       </div>
@@ -565,6 +679,8 @@
         var outNext = document.getElementById('outNext');
         var outBar = document.getElementById('outBar');
         var outNote = document.getElementById('outNote');
+        var outTrips = document.getElementById('outTrips');
+        var outCompare = document.getElementById('outCompare');
 
         function update() {
           var L = parseInt(life.value, 10);
@@ -588,16 +704,30 @@
           outTrip.textContent = '+' + fmt(trip) + ' pts';
           outLife.textContent = fmt(newLife) + ' pts';
 
-          if (idx2 >= TIERS.length - 1 && idx >= TIERS.length - 1) {
+          // The same trip at every tier, with your current tier highlighted.
+          var rows = '';
+          for (var c = 0; c < TIERS.length; c++) {
+            var ct = TIERS[c];
+            rows += '<li class="cc-row' + (c === idx ? ' on' : '') + '">'
+              + '<span class="cc-name">' + ct.name + '</span>'
+              + '<span class="cc-bar"><i style="width:' + Math.round((ct.mult / 2) * 100) + '%;background:' + ct.color + '"></i></span>'
+              + '<b>+' + fmt(Math.round(S * ct.mult)) + '</b></li>';
+          }
+          outCompare.innerHTML = rows;
+
+          if (idx2 >= TIERS.length - 1) {
             outNext.textContent = 'Diamond — top tier reached';
             outBar.style.width = '100%';
+            outTrips.textContent = 'Top tier reached';
             outNote.textContent = 'You are at the very top: every $1 earns you 2 points.';
           } else {
             var next = TIERS[idx2 + 1];
             var base = TIERS[idx2].from;
             var need = next.from - newLife;
             var pct = Math.max(0, Math.min(100, ((newLife - base) / (next.from - base)) * 100));
+            var trips = Math.ceil(need / Math.max(1, trip));
             outNext.textContent = next.name + ' — ' + fmt(need) + ' pts to go';
+            outTrips.textContent = 'About ' + fmt(trips) + (trips === 1 ? ' more trip' : ' more trips') + ' this size';
             outBar.style.width = pct.toFixed(0) + '%';
             outNote.textContent = idx2 > idx
               ? 'This trip levels you up to ' + TIERS[idx2].name + '! After that, every $1 earns ' + fmtMult(TIERS[idx2].mult) + '.'
