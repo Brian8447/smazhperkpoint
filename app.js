@@ -146,7 +146,7 @@
   var signOut = $('sign-out');
   if (signOut) signOut.addEventListener('click', async function () {
     await sb.auth.signOut();
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
   });
   loadSession().then(function (ok) { if (ok) loadOverview(); });
 })();
