@@ -36,6 +36,10 @@
   // ---- public-page login form (index.html) ----
   var loginForm = $('staff-login-form');
   if (loginForm) {
+    // Already signed in? Skip the login page and go straight to the staff desk.
+    if (sb) sb.auth.getSession().then(function (res) {
+      if (res.data.session) window.location.replace('staff.html');
+    });
     loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       var msg = $('staff-login-msg');
@@ -58,7 +62,7 @@
   async function loadSession() {
     var res = await sb.auth.getSession();
     currentUser = res.data.session ? res.data.session.user : null;
-    if (!currentUser) { window.location.href = 'index.html#staff-login'; return false; }
+    if (!currentUser) { window.location.href = 'login.html'; return false; }
     var s = await sb.from('staff_users').select('*').eq('id', currentUser.id).single();
     currentStaff = s.data || { username: currentUser.email, role: 'staff', is_main_admin: false };
     $('staff-who').textContent = 'Signed in as ' + currentStaff.username +

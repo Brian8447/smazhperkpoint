@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:," />
+    <title>Staff Login — SmazhPerkPoint · Smazh Premium Outlet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light;
+        --yellow: #ffc800;
+        --yellow-pale: #fffae8;
+        --amber-text: #7a5200;
+        --ink: #131313;
+        --ink-soft: #3d3d38;
+        --muted: #6f6d63;
+        --paper: #fff;
+        --line: #e9e4d2;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--yellow-pale);
+        color: var(--ink);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+      .topbar { background: #fff; border-bottom: 1px solid var(--line); }
+      .topbar-in { display: flex; align-items: center; gap: 18px; padding-top: 12px; padding-bottom: 12px; }
+      .wordmark { font-weight: 900; letter-spacing: .02em; font-size: 17px; line-height: 1.1; text-decoration: none; }
+      .wordmark small { display: block; font-weight: 700; font-size: 10.5px; letter-spacing: .18em; color: var(--amber-text); text-transform: uppercase; }
+      .wordmark .dot { color: var(--yellow); -webkit-text-stroke: 1px #d9a400; }
+      .topbar-in nav { margin-left: auto; }
+      .back { font-weight: 700; font-size: 14px; text-decoration: none; color: var(--ink-soft); }
+      .back:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+
+      .page { padding: 56px 20px 72px; display: flex; justify-content: center; }
+      .card {
+        width: 100%; max-width: 460px; background: #fff;
+        border: 2px solid var(--ink); border-radius: 20px;
+        box-shadow: 8px 8px 0 var(--ink);
+        padding: 32px 28px 28px;
+      }
+      .tag {
+        display: inline-block; background: var(--ink); color: var(--yellow);
+        font-weight: 800; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+        padding: 7px 14px; border-radius: 999px; margin-bottom: 16px;
+      }
+      h1 { font-size: clamp(32px, 7vw, 40px); line-height: 1; font-weight: 900; letter-spacing: -.015em; margin: 0 0 12px; }
+      h1 .hl { background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 94%, transparent 94%); padding: 0 2px; }
+      .lead { color: var(--ink-soft); margin: 0 0 22px; font-size: 15.5px; }
+      label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+      input {
+        width: 100%; font: inherit; padding: 12px 14px; margin-bottom: 16px;
+        border: 2px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+      }
+      input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--yellow); }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+        font-family: inherit; font-weight: 800; font-size: 15px; text-decoration: none;
+        padding: 13px 24px; border-radius: 999px; border: 2px solid var(--ink);
+        cursor: pointer; transition: transform .15s ease;
+      }
+      .btn:active { transform: scale(.98); }
+      .btn-black { background: var(--ink); color: #fff; }
+      .btn-black:hover { background: #2a2a2a; }
+      .note { font-size: 13.5px; color: var(--muted); margin: 16px 0 0; }
+      .msg { min-height: 1.4em; font-size: 14px; font-weight: 700; margin: 14px 0 0; color: #a1231b; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="wrap topbar-in">
+        <a class="wordmark" href="index.html">SMAZH<span class="dot">.</span><small>Premium Outlet</small></a>
+        <nav><a class="back" href="index.html">← Back to the site</a></nav>
+      </div>
+    </div>
+
+    <main class="page">
+      <section class="card">
+        <span class="tag">SmazhPerkPoint · Staff only</span>
+        <h1>Staff <span class="hl">Login</span></h1>
+        <p class="lead">Sign in to open Cashier Desk, Member Portal, Rewards and Insights with your real customers and points.</p>
+        <form id="staff-login-form">
+          <label for="staff-login-email">Username / email</label>
+          <input id="staff-login-email" type="text" placeholder="Staff email" autocomplete="username" required />
+          <label for="staff-login-password">Password</label>
+          <input id="staff-login-password" type="password" placeholder="Password" autocomplete="current-password" required />
+          <button class="btn btn-black" type="submit">Sign in</button>
+          <p class="note">Staff sign in with Supabase Auth. New passwords are needed here — passwords cannot be moved from Muse. Brian is the protected main admin.</p>
+        </form>
+        <p id="staff-login-msg" class="msg" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
