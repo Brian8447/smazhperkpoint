@@ -614,14 +614,18 @@
       <div class="wrap">
         <h2>Staff Login</h2>
         <p>Staff only. Sign in here in Muse to open Cashier Desk, Member Portal, Rewards and Insights with your real customers and points.</p>
-        <form onsubmit="event.preventDefault(); document.getElementById('staff-login-msg').textContent='Staff sign-in lives in Muse, not on this public page. Open SmazhPerkPoint in Muse, tap Staff Login top-right, and sign in as Smazh or Brian.';">
-          <label>Username<br><input type="text" placeholder="Username" required></label><br><br>
-          <label>Password<br><input type="password" placeholder="Password" required></label><br><br>
+        <form id="staff-login-form">
+          <label>Username / email<br><input id="staff-login-email" type="text" placeholder="Staff email" required></label><br><br>
+          <label>Password<br><input id="staff-login-password" type="password" placeholder="Password" required></label><br><br>
           <button class="btn btn-black" type="submit">Sign in</button>
+          <p style="font-size:14px">Staff sign in with Supabase Auth. New passwords are needed here — passwords cannot be moved from Muse. Brian is the protected main admin.</p>
         </form>
         <p id="staff-login-msg"></p>
       </div>
     </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

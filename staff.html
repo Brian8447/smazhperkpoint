@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Staff — SmazhPerkPoint · Smazh Premium Outlet</title>
+<style>
+  :root { --yellow:#ffc800; --ink:#131313; --paper:#fff; --line:#e9e4d2; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+  .wrap { max-width:1120px; margin:0 auto; padding:20px; }
+  header { background:#141414; color:#fff; padding:14px 0; }
+  header .wrap { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  h1 { font-size:20px; margin:0; } h1 span { color:var(--yellow); }
+  .btn { background:var(--yellow); color:#131313; border:0; border-radius:999px; padding:10px 18px; font-weight:700; cursor:pointer; }
+  .btn-black { background:#131313; color:#fff; }
+  .card { border:1px solid var(--line); border-radius:14px; padding:14px; margin:10px 0; background:#fff; }
+  section { margin:28px 0; } h2 { margin:0 0 8px; }
+  input, select { padding:9px 10px; border:1px solid #ccc; border-radius:8px; margin:4px 0; width:100%; max-width:320px; }
+  .pill { background:var(--yellow); border-radius:999px; padding:2px 10px; font-weight:700; font-size:13px; }
+  .vip { background:#141414; color:#fff; border-radius:18px; padding:18px; }
+  .vip .code { letter-spacing:2px; font-weight:800; color:var(--yellow); }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Smazh<span>PerkPoint</span> · Staff</h1>
+  <div><span id="staff-who">Signing in…</span> <button class="btn" id="sign-out" type="button">Sign out</button></div>
+</div></header>
+<main class="wrap" id="staff-root">
+  <p><a href="index.html">← Public page</a></p>
+
+  <section><h2>Cashier Desk</h2><div id="overview"><p>Loading…</p></div>
+    <div id="roster"></div>
+    <h3>Latest activity</h3><div id="activity"></div>
+  </section>
+
+  <section><h2>Member Portal View</h2>
+    <div class="vip"><div>VIP LOYALTY PASS</div><div class="code">SP-#####</div>
+    <p>Member code, tier and lifetime points come from the member you tap in Cashier Desk. Tiers never drop: Bronze 1× (0+), Silver 1.25× (500+), Gold 1.5× (1,500+), Platinum 1.75× (3,500+), Diamond 2× (7,000+).</p></div>
+  </section>
+
+  <section><h2>Rewards Catalog</h2><div id="rewards"></div>
+    <form id="add-reward-form">
+      <input id="reward-name" placeholder="Reward name" required />
+      <input id="reward-cost" type="number" min="1" placeholder="Points cost" required />
+      <input id="reward-category" placeholder="Category" />
+      <input id="reward-desc" placeholder="Description" />
+      <button class="btn" type="submit">Add Reward</button>
+    </form>
+  </section>
+
+  <section><h2>Insights</h2><div id="insights"></div></section>
+
+  <section><h2>SmazhBi</h2>
+    <p><span class="pill">SmazhBi</span> — AI analysis of points, members, tiers, rewards and staff activity. <strong>Not built yet in this starter:</strong> needs a Gemini API key and a small server job (see PLAN.md). The Daily / Monthly analysis from Muse is the reference for what it should show.</p>
+  </section>
+
+  <section><h2>Settings — Colours</h2>
+    <p>Colours: yellow <span style="background:#ffc800;padding:0 10px;">#FFC800</span>, white, black. Top bar: black. This starter keeps the saved yellow / white / black look; the full colour-picker from Muse (8 themes, top-bar styles) is a later step after the tables and logins work.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
