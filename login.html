@@ -14,17 +14,22 @@
       :root {
         color-scheme: light;
         --yellow: #ffc800;
+        --yellow-soft: #fff3c4;
         --yellow-pale: #fffae8;
         --amber-text: #7a5200;
         --ink: #131313;
         --ink-soft: #3d3d38;
         --muted: #6f6d63;
-        --paper: #fff;
+        --paper: #ffffff;
         --line: #e9e4d2;
+        --radius: 18px;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
         font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
         background: var(--yellow-pale);
         color: var(--ink);
@@ -32,49 +37,141 @@
         -webkit-font-smoothing: antialiased;
       }
       a { color: inherit; }
-      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; width: 100%; }
 
-      .topbar { background: #fff; border-bottom: 1px solid var(--line); }
+      /* ---------- top nav (same bar as the public site) ---------- */
+      .topbar {
+        position: sticky; top: 0; z-index: 40;
+        background: rgba(255,255,255,.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+      }
       .topbar-in { display: flex; align-items: center; gap: 18px; padding-top: 12px; padding-bottom: 12px; }
       .wordmark { font-weight: 900; letter-spacing: .02em; font-size: 17px; line-height: 1.1; text-decoration: none; }
       .wordmark small { display: block; font-weight: 700; font-size: 10.5px; letter-spacing: .18em; color: var(--amber-text); text-transform: uppercase; }
       .wordmark .dot { color: var(--yellow); -webkit-text-stroke: 1px #d9a400; }
-      .topbar-in nav { margin-left: auto; }
-      .back { font-weight: 700; font-size: 14px; text-decoration: none; color: var(--ink-soft); }
+      .back { margin-left: auto; font-weight: 700; font-size: 14.5px; text-decoration: none; color: var(--ink-soft); }
       .back:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+      .back:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
 
-      .page { padding: 56px 20px 72px; display: flex; justify-content: center; }
+      /* ---------- page + card ---------- */
+      .page {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 20px 56px;
+      }
       .card {
-        width: 100%; max-width: 460px; background: #fff;
-        border: 2px solid var(--ink); border-radius: 20px;
+        width: 100%;
+        max-width: 460px;
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        border-radius: 24px;
         box-shadow: 8px 8px 0 var(--ink);
-        padding: 32px 28px 28px;
+        padding: 36px 34px 30px;
       }
       .tag {
-        display: inline-block; background: var(--ink); color: var(--yellow);
-        font-weight: 800; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
-        padding: 7px 14px; border-radius: 999px; margin-bottom: 16px;
+        display: inline-block;
+        background: var(--ink);
+        color: var(--yellow);
+        font-weight: 800;
+        font-size: 11.5px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        padding: 7px 14px;
+        border-radius: 999px;
+        margin-bottom: 18px;
       }
-      h1 { font-size: clamp(32px, 7vw, 40px); line-height: 1; font-weight: 900; letter-spacing: -.015em; margin: 0 0 12px; }
+      h1 { font-size: clamp(32px, 6vw, 40px); line-height: 1; font-weight: 900; letter-spacing: -.015em; margin: 0 0 12px; }
       h1 .hl { background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 94%, transparent 94%); padding: 0 2px; }
-      .lead { color: var(--ink-soft); margin: 0 0 22px; font-size: 15.5px; }
-      label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+      .lead { color: var(--ink-soft); font-size: 16px; margin: 0 0 26px; }
+
+      /* ---------- form ---------- */
+      form { display: grid; gap: 18px; }
+      .field { display: grid; gap: 8px; }
+      label {
+        font-weight: 800;
+        font-size: 12.5px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
       input {
-        width: 100%; font: inherit; padding: 12px 14px; margin-bottom: 16px;
-        border: 2px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+        width: 100%;
+        font: inherit;
+        font-size: 16px;
+        color: var(--ink);
+        background: var(--paper);
+        padding: 14px 16px;
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        transition: border-color .15s ease, box-shadow .15s ease;
       }
-      input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--yellow); }
+      input::placeholder { color: #9a978a; }
+      input:hover { border-color: #d6cfb8; }
+      input:focus {
+        outline: none;
+        border-color: var(--ink);
+        box-shadow: 0 0 0 4px var(--yellow-soft);
+      }
+      input:invalid:not(:placeholder-shown) { border-color: #d9534f; }
       .btn {
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
-        font-family: inherit; font-weight: 800; font-size: 15px; text-decoration: none;
-        padding: 13px 24px; border-radius: 999px; border: 2px solid var(--ink);
-        cursor: pointer; transition: transform .15s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        font-family: inherit;
+        font-weight: 900;
+        font-size: 16px;
+        text-decoration: none;
+        padding: 15px 24px;
+        margin-top: 4px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform .15s ease, box-shadow .15s ease;
       }
-      .btn:active { transform: scale(.98); }
-      .btn-black { background: var(--ink); color: #fff; }
-      .btn-black:hover { background: #2a2a2a; }
-      .note { font-size: 13.5px; color: var(--muted); margin: 16px 0 0; }
-      .msg { min-height: 1.4em; font-size: 14px; font-weight: 700; margin: 14px 0 0; color: #a1231b; }
+      .btn-primary { background: var(--yellow); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+      .btn-primary:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--ink); }
+      .btn-primary:active { transform: scale(.99); box-shadow: 3px 3px 0 var(--ink); }
+      .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      /* ---------- status + help ---------- */
+      .msg {
+        margin: 16px 0 0;
+        padding: 11px 14px;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--ink);
+        border-radius: 10px;
+        background: var(--yellow-pale);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+      .msg:empty { display: none; }
+      .note {
+        margin: 22px 0 0;
+        padding-top: 18px;
+        border-top: 1px dashed var(--line);
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.6;
+      }
+
+      footer { border-top: 1px solid var(--line); padding: 20px 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+      @media (max-width: 640px) {
+        .page { padding: 28px 16px 36px; align-items: flex-start; }
+        .card { max-width: none; padding: 26px 22px 24px; box-shadow: 5px 5px 0 var(--ink); }
+        .lead { margin-bottom: 22px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .btn, input { transition: none; }
+        .btn-primary:hover { transform: none; }
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
@@ -83,26 +180,34 @@
     <div class="topbar">
       <div class="wrap topbar-in">
         <a class="wordmark" href="index.html">SMAZH<span class="dot">.</span><small>Premium Outlet</small></a>
-        <nav><a class="back" href="index.html">← Back to the site</a></nav>
+        <a class="back" href="index.html">← Back to the site</a>
       </div>
     </div>
 
     <main class="page">
-      <section class="card">
+      <section class="card" aria-labelledby="login-title">
         <span class="tag">SmazhPerkPoint · Staff only</span>
-        <h1>Staff <span class="hl">Login</span></h1>
+        <h1 id="login-title">Staff <span class="hl">Login</span></h1>
         <p class="lead">Sign in to open Cashier Desk, Member Portal, Rewards and Insights with your real customers and points.</p>
+
         <form id="staff-login-form">
-          <label for="staff-login-email">Username / email</label>
-          <input id="staff-login-email" type="text" placeholder="Staff email" autocomplete="username" required />
-          <label for="staff-login-password">Password</label>
-          <input id="staff-login-password" type="password" placeholder="Password" autocomplete="current-password" required />
-          <button class="btn btn-black" type="submit">Sign in</button>
-          <p class="note">Staff sign in with Supabase Auth. New passwords are needed here — passwords cannot be moved from Muse. Brian is the protected main admin.</p>
+          <div class="field">
+            <label for="staff-login-email">Username / email</label>
+            <input id="staff-login-email" type="text" placeholder="Staff email" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="staff-login-password">Password</label>
+            <input id="staff-login-password" type="password" placeholder="Password" autocomplete="current-password" required />
+          </div>
+          <button class="btn btn-primary" type="submit">Sign in</button>
         </form>
+
         <p id="staff-login-msg" class="msg" role="status" aria-live="polite"></p>
+        <p class="note">Staff sign in with Supabase Auth. New passwords are needed here — passwords cannot be moved from Muse. Brian is the protected main admin.</p>
       </section>
     </main>
+
+    <footer><div class="wrap">SmazhPerkPoint · Staff area · Smazh Premium Outlet</div></footer>
 
     <script src="app.js"></script>
   </body>
