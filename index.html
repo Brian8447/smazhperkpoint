@@ -613,14 +613,14 @@
     <section class="section" id="staff-login">
       <div class="wrap">
         <h2>Staff Login</h2>
-        <p>Staff only. Sign in here in Muse to open Cashier Desk, Member Portal, Rewards and Insights with your real customers and points.</p>
+        <p>Staff only. Sign in to open the membership desk, member details, points history and rewards.</p>
         <form id="staff-login-form">
-          <label>Username / email<br><input id="staff-login-email" type="text" placeholder="Staff email" required></label><br><br>
-          <label>Password<br><input id="staff-login-password" type="password" placeholder="Password" required></label><br><br>
+          <label>Staff email<br><input id="staff-login-email" type="email" placeholder="Staff email" autocomplete="username" required></label><br><br>
+          <label>Password<br><input id="staff-login-password" type="password" placeholder="Password" autocomplete="current-password" required></label><br><br>
           <button class="btn btn-black" type="submit">Sign in</button>
-          <p style="font-size:14px">Staff sign in with Supabase Auth. New passwords are needed here — passwords cannot be moved from Muse. Brian is the protected main admin.</p>
+          <p style="font-size:14px">Use an approved staff account. Only approved staff accounts can access member data.</p>
         </form>
-        <p id="staff-login-msg"></p>
+        <p id="staff-login-msg" role="status" aria-live="polite"></p>
       </div>
     </section>
 
