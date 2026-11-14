@@ -155,6 +155,15 @@
     return 'Balance adjustment';
   }
 
+  function transactionDetails(entry) {
+    var parts = [];
+    if (entry.purchase_amount !== null && entry.purchase_amount !== undefined) {
+      parts.push('Purchase amount ' + Number(entry.purchase_amount).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    }
+    if (entry.reason) parts.push(entry.reason);
+    return parts.join(' · ') || 'No note';
+  }
+
   function pointsDisplay(value) {
     var points = Number(value) || 0;
     var className = points < 0 ? 'points-negative' : 'points-positive';
@@ -178,7 +187,7 @@
       '<div class="details-grid"><div class="detail-item"><label>Phone</label><div>' + escapeHtml(member.phone || 'Not provided') + '</div></div><div class="detail-item"><label>Email</label><div>' + escapeHtml(member.email || 'Not provided') + '</div></div><div class="detail-item"><label>Address</label><div>' + escapeHtml(member.address || 'Not provided') + '</div></div><div class="detail-item"><label>Joined</label><div>' + escapeHtml(joined) + '</div></div><div class="detail-item wide"><label>Staff notes</label><div>' + escapeHtml(member.notes || 'No notes').replace(/\n/g, '<br>') + '</div></div></div>' +
       '<div class="member-history"><div class="section-head"><div><p class="eyebrow">MEMBER LEDGER</p><h2>Points history</h2></div></div>' +
       (history.length ? history.map(function (entry) {
-        return '<div class="history-row"><div><strong>' + escapeHtml(transactionLabel(entry.type)) + '</strong><small>' + escapeHtml(entry.reason || 'No note') + ' · ' + escapeHtml(formatDate(entry.created_at)) + ' · ' + escapeHtml(entry.staff_name || 'Staff') + '</small></div><div>' + pointsDisplay(entry.points) + '</div></div>';
+        return '<div class="history-row"><div><strong>' + escapeHtml(transactionLabel(entry.type)) + '</strong><small>' + escapeHtml(transactionDetails(entry)) + ' · ' + escapeHtml(formatDate(entry.created_at)) + ' · ' + escapeHtml(entry.staff_name || 'Staff') + '</small></div><div>' + pointsDisplay(entry.points) + '</div></div>';
       }).join('') : '<div class="blank-note">No points activity recorded yet.</div>') + '</div>';
   }
 
@@ -186,7 +195,7 @@
     var recent = transactions.slice(0, 30);
     $('recent-activity').innerHTML = recent.length ? recent.map(function (entry) {
       var member = customers.find(function (item) { return item.id === entry.customer_id; });
-      return '<div class="activity-row"><div class="activity-member"><strong>' + escapeHtml(member ? member.name : 'Member') + ' · ' + escapeHtml(transactionLabel(entry.type)) + '</strong><small>' + escapeHtml(entry.reason || 'No note') + ' · ' + escapeHtml(entry.staff_name || 'Staff') + '</small></div><div>' + pointsDisplay(entry.points) + '</div><div class="activity-time"><small>' + escapeHtml(formatDate(entry.created_at)) + '</small></div></div>';
+      return '<div class="activity-row"><div class="activity-member"><strong>' + escapeHtml(member ? member.name : 'Member') + ' · ' + escapeHtml(transactionLabel(entry.type)) + '</strong><small>' + escapeHtml(transactionDetails(entry)) + ' · ' + escapeHtml(entry.staff_name || 'Staff') + '</small></div><div>' + pointsDisplay(entry.points) + '</div><div class="activity-time"><small>' + escapeHtml(formatDate(entry.created_at)) + '</small></div></div>';
     }).join('') : '<div class="blank-note">New purchases and redemptions will appear here.</div>';
   }
 
@@ -205,11 +214,10 @@
   }
 
   async function refreshDashboard() {
-    showNotice('', 'success');
     var results = await Promise.all([
       sb.from('customers').select('id,member_code,name,phone,email,address,notes,points,lifetime_points,created_at').order('created_at', { ascending: false }).limit(1000),
       sb.from('rewards').select('id,name,points_cost,category,description,active').eq('active', true).order('points_cost', { ascending: true }),
-      sb.from('point_transactions').select('id,customer_id,type,points,reason,staff_name,created_at').order('created_at', { ascending: false }).limit(1000)
+      sb.from('point_transactions').select('id,customer_id,type,points,purchase_amount,reason,staff_name,created_at').order('created_at', { ascending: false }).limit(1000)
     ]);
     var failed = results.find(function (result) { return result.error; });
     if (failed) throw failed.error;
@@ -339,9 +347,9 @@
     var points = Math.round(amount * tier.multiplier);
     if (points <= 0) { showNotice('Enter an amount that earns at least one point.', 'error'); return; }
     var note = $('purchase-note').value.trim();
-    var reason = 'Purchase amount ' + amount.toFixed(2) + ' · ' + tier.name + ' ' + tier.multiplier + '×' + (note ? ' · ' + note : '');
+    var reason = 'Tier ' + tier.name + ' ' + tier.multiplier + '×' + (note ? ' · ' + note : '');
     try {
-      var result = await sb.from('point_transactions').insert({ customer_id: member.id, type: 'earn', points: points, reason: reason, staff_name: currentStaff.username || currentUser.email });
+      var result = await sb.from('point_transactions').insert({ customer_id: member.id, type: 'earn', points: points, purchase_amount: amount, reason: reason, staff_name: currentStaff.username || currentUser.email });
       if (result.error) throw result.error;
       closeModal('purchase-modal');
       showNotice(formatPoints(points) + ' points added to ' + member.name + '.', 'success');
